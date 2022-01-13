@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: PersistenVolumeClaim
+metadata:
+  name: pvc-one
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requets:
+      storage: 1Gi
