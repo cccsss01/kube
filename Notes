@@ -1,0 +1,39 @@
+##ETCD BACKUP
+
+#Find directory of etcd daemon
+sudo grep data-dir /etc/kubernetes/manifests/etcd.yaml
+ex. - --data-dir=/var/lib/etcd
+
+kubectl -n kube-system exec -it etcd-k8scp -- sh \   #Same as before-c "ETCDCTL_API=3 \    #Version to useETCDCTL_CACERT=/etc/kubernetes/pki/etcd/ca.crt \    #Pass the certificate authorityETCDCTL_CERT=/etc/kubernetes/pki/etcd/server.crt \    #Pass the peer cert and keyETCDCTL_KEY=/etc/kubernetes/pki/etcd/server.key \etcdctl endpoint health"     #The command to test the endpoint
+
+
+#Upgrade cluster
+install kubeadm=1.22.1-00
+k drain master-node --ignore-daemonsets
+sudo kubeadm upgrade plan
+sudo kubeadm upgrade apply v1.22.1
+k get node
+apt-mark unhold kubelet kubectl
+install kubelet=1.22.1-00 kubectl=1.22.1-00
+apt-mark hold kubelet kubectl
+systemctl daemon-reload
+systemctl restart kubelet
+k get node
+k uncordon k8sscp
+k get node
+
+
+#On additional nodes i.e. worker
+apt-mark unhold kubeadm
+apt-get update apt get install -y kubeadm=1.22.1-00
+sudo apt-mark hold kubeadm
+k drain worker --ignore-daemonsets
+sudo kubeadm upgrade node
+sudo apt-mark unhold kubelet kubeadm
+sudo apt-get install -y kubelet=1.22.1-00 kubectl=1.22.1-00
+sudo apt-mark hold kubelet kubectl
+sudo systemctl daemon-reload
+sudo systemctl restart kubelet
+k get node
+k uncordon worker
+k get nodes
