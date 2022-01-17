@@ -1,0 +1,36 @@
+#Config HA
+
+defaults
+log global
+option tcplog
+mode tcp
+#<-- Edit these three lines, starting around line 23
+errorfile 503 /etc/haproxy/errors/503.http
+errorfile 504 /etc/haproxy/errors/504.http
+frontend proxynode
+bind *:80
+bind *:6443
+stats uri /proxystats
+default_backend k8sServers
+backend k8sServers
+balance roundrobin
+#<-- Add the following lines to bottom of file
+server cp 10.128.0.24:6443 check #<-- Edit these with your IP addresses, port, and hostname
+# server Secondcp 10.128.0.30:6443 check #<-- Comment out until ready
+# server Thirdcp 10.128.0.66:6443 check #<-- Comment out until ready
+listen stats
+bind :9999
+mode http
+stats enable
+stats hide-version
+stats uri /stats
+
+#edit CP
+sudo vim /etc/hosts
+HA-Proxy-IP master
+#comment out old master ip
+
+#Join control plane nodes
+sudo kubeadm token create
+#create new hash
+openssl x509 -pubkey \-in /etc/kubernetes/pki/ca.crt | openssl rsa \-pubin -outform der 2>/dev/null | openssl dgst \-sha256 -hex | sed's/ˆ.* //'
