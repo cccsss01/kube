@@ -1,0 +1,16 @@
+#Update strategies:
+ OnDelete
+ RollingUPdate
+ 
+
+#update
+k edit ds s-one
+k set image ds ds-one nginx=nginx:1.16.1-alpine
+k delete po ds-one
+
+#roll back
+k rollout undo ds ds-one --to-revision=1
+
+#Rolling update
+name: ds-one
+  type: RollingUpdate
