@@ -1,0 +1,15 @@
+journalctl -u kubelet | less
+
+#Kube processes
+sudo find / -name "*apiserver*log*"
+sudo find / - name "*coredns*log*"
+sudo find / -name "*kube-proxy*log*"
+
+#container logs
+/var/log/containers
+
+#pod logs
+/var/log/pods
+
+#standard out can be seen via kubectl logs
+k -n kube-system logs   <tab><tab>
