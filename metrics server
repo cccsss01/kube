@@ -1,0 +1,10 @@
+git clone https://github.com/kubernetes-incubator/metrics-server.git
+cd metrics-server/
+k create -f https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.3.7/components.yaml
+k -n kube-system edit deployment metrics-server
+  add
+  containers:
+  - args:
+  - -- kubelet-insecure-tls
+  - --kubelet-preferred-address-types=InternalIP
+ 
