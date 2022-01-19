@@ -1,0 +1,64 @@
+    1  firewll-cmd --add-masquerade --permanent
+    2  firewall-cmd --add-masquerade --permanent
+    3  firewall-cmd --reload
+    4  cat < /etc/sysctl.d/k8s.conf net.bridge.bridge-nf-call-ip6tables =1
+    5  cat < /etc/sysctl.d/k8s.conf net.bridge.bridge-nf-call-iptables = 1
+    6  modprobe br_netfilter
+    7  ls /etc/sysctl.d
+    8  touch /etc/sysctl.d/k8s.conf
+    9  vi /etc/sysctl.d/k8s.conf
+   10  sysctl --system
+   11  swapoff -a
+   12  sed -i '/swap/d' /etc/fstab
+   12.5 dnf -y install yum-utils
+   13  dnf config-manager --add-repo-https://download.docker.com/linux/centos/docker-ce.repo
+   14  vi /etc/yum.repos.d/docker.repo
+   15  dnf config-manager --help
+   16  dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+   17  vi /etc/yum.repos.d/docker.repo
+   18  mv /etc/yum.repos.d/docker.repo /tmp
+   19  ls /etc/yum.repos.d/docker.repo
+   20  ls /etc/yum.repos.d/
+   21  ls /etc/yum.repos.d/docker.repo /tmp/olddockerrepo
+   22  mv /etc/yum.repos.d/docker.repo /tmp/olddockerrepo
+   23  dnf clean all
+   24  dnf install https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.6-3.3.el7.x86_64.rpm
+   25  dnf install docker-ce --nobest -y
+   26  reboot
+   27  systemctl start docker
+   28  systemctl enable docker
+   29  echo '{
+   30  "exec-opts": ["native.cgroupdriver=systemd"]
+   31  }
+   32  ' > /etc/docker/daemon.json
+   33  systemctl restart docker
+   34  docker version
+   35  sestatus
+   36  vi /etc/yum.repos.d/kubernetes.repo
+cat < /etc/yum.repos.d / kubernetes.repo[kubernetes]
+name = Kubernetes
+baseurl = https: //packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
+  enabled = 1
+gpgcheck = 1
+repo_gpgcheck = 1
+gpgkey = https: //packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+  exclude = kubelet kubeadm kubectl
+EOF
+   37  dnf upgrade -y
+   38  vi /etc/yum.repos.d/kubernetes.repo
+   39  vi /etc/yum.repos.d/kubernetes.repo
+   40  dnf clean all
+   41  yum install -y kubelet kubeadm kubectl --disableexcludes=Kubernetes
+   42  kubeadm config images pull
+   43  firewall-cmd --zone=public --permanent --add-port={6443,2379,2380,10250,10251,10252,10257,10259}/tcp
+   44  systemctl stop firewalld
+   45  systemctl disable firewalld
+   46  systemctl --help
+   47  systemctl status docker
+   48  systemctl enable kubelet
+   49  systemctl start kubelet
+   50  kubeadm init --pod-network-cidr 192.168.0.0/16
+   51  exit
+   52  history
+   53  history >> /tmp/kubecommands
+   54  history >> /tmp/kuberootcommands

@@ -1,0 +1,20 @@
+    1  sudo hostnamectl set-hostname master
+    2  dnf -y upgrade
+    3  sudo dnf -y upgrade
+    4  setenforce 0
+    5  sudo setenforce 0
+    6  sudo sed -i --follow-symlinks 's/SELINUX=enforcing/SELINUX=disabled/g'
+    7  sudo vi /etc/selinux/config
+    8  sudo su
+    9  mkdir -p $HOME/.kube
+   10  cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+   11  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+   12  kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+   13  chown $(id -u):$(id -g) $HOME/.kube/config
+   14  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+   15  kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+   16  sudo su
+   17  history >> /tmp/kubecommands
+   18  sudo history >> /tmp/kubecommands
+   19  sudo history >> /tmp/kubecommandsuser
+   20  history >> /tmp/kubecommandsuser
