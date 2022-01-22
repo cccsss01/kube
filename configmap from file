@@ -1,0 +1,18 @@
+kubectl create configmap --from-file redis.conf redis
+
+them from deployment.yaml file
+a
+k
+m
+spec:
+  spec:
+    containers:
+      volumeMounts:
+      - name: redis
+        subPath: redis.conf
+        mountPath: /etc/redis.conf
+    volumes:
+    - name: redis
+      configMap:
+        name: redis
+    
