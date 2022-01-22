@@ -7,9 +7,9 @@ rules:
   -apiGroups: ["*"]
    resources: ["*"]
    verbs: ["get", "watch", "list", "update", "create", "patch", "delete"]
- ---
- apiVersion: rbac.authorization.k8s.io/v1
- kind: RoleBinding
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
 metadata:
   name: Full
   namespace: Dev
