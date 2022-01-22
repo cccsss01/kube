@@ -37,3 +37,6 @@ sudo systemctl restart kubelet
 k get node
 k uncordon worker
 k get nodes
+
+#change namespace
+kubectl config set-context ($kubectl config current-context) --namespace=default
