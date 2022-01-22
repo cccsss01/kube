@@ -1,0 +1,9 @@
+api
+kind
+meta
+spec
+  containers:
+  -  name:
+     envFrom:
+       - configMapRef:
+         name: dev
