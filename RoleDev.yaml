@@ -19,5 +19,5 @@ subjects:
   apiGroup: rbac.authorization.k8s.io
  roleRef:
    kind: Role
-   name: Dev
+   name: Dev-Full
    apiGroup: rbac.authorization.k8s.io
