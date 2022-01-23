@@ -1,0 +1,39 @@
+#application trouble shooting
+
+Debug pods
+Debug Replication controllers
+Debug services
+
+#Debug pods
+k describe pods ${POD_NAME}
+Pending status means, it can't be scheduled onto a node
+  - check resources
+  -hostport is unecessary
+
+Waiting status
+ common: failure to pull image
+   - run docker pull <image>
+   
+ For running PODS:
+ k logs podname containername
+  
+  previously crashed
+  k logs -- previous podname container name
+ 
+ use k exec podname -c contianername -- cmd arg1 .. argn
+ 
+ v1.23 [beta]
+ k debug -it podname --image=busybox --target=podname
+  --target must be supported by CRI
+ 
+ Copy a Pod while adding a new container
+ k debug podname -it --image=ubuntu --share-processes --copy-to=podname-debug
+ 
+ Copy a pod while changing container images
+ k debug podname --copy-to=myapp-debug --set-image=*=ubuntu
+ 
+ Debug via shell on node
+ k debug node/nodename --it --image=ubuntu
+ 
+ 
+   
